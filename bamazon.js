@@ -25,23 +25,26 @@ connection.connect(err => {
 
 function start() {
   console.log("Started!");
-  inquirer
-    .prompt({
-      name: "product",
-      type: "input",
-      message: "What is the ID name of the product you would like to buy?",
-    },
-    {
-      name: "ammount",
-      type: "input",
-      message: "How many units of the product would you like to buy?"
-    });
-    
-  // get all the records from the bamazonDB table 
+   // get all the records from the bamazonDB table 
   // and console.table them 
   connection.query("SELECT * FROM bamazonDB", (err, results) => {
-  if (err) throw err;
-  console.table(results);
-  });
+    if(err) throw err;
+    console.table(results);
+    inquirer
+      .prompt([
+      {
+        name: "product",
+        type: "input",
+        message: "What is the ID name of the product you would like to buy?",
+      },
+      {
+        name: "amount",
+        type: "input",
+        message: "How many units of the product would you like to buy?"
+      }]).then(answer => {
+        console.log(answer);
+        // take the amount and subtract that from the stock_quantity  
+      })
+    });
 }
 
